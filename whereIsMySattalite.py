@@ -1,77 +1,10 @@
-import requests
 import time
 from datetime import datetime
 from zoneinfo import ZoneInfo
-from math import sin, cos, sqrt, radians, asin
-
-earth_radius = 6371 + 420 # km
 
 
-def get_satellite_location():
-    """This will return the ISS location"""
-
-    url = "http://api.open-notify.org/iss-now.json"
-    
-    try:
-        response = requests.get(url, timeout=5)
-        response.raise_for_status()
-        
-        data = response.json()
-        
-        location = {
-            "time": data["timestamp"],
-            "longitude": float(data["iss_position"]["longitude"]),
-            "latitude": float(data["iss_position"]["latitude"]),
-        }
-    except requests.exceptions.RequestException:
-        location = {
-            "time": None,
-            "longitude": None,
-            "latitude": None,
-        }
-    
-    
-    return location
-
-
-# calculate arc length for speed
-def calculate_distance(lat1, lon1, lat2, lon2):
-    """Calculate distance between two coordinates"""
-
-    # degree --> radians
-    lat1 = radians(lat1)
-    lon1 = radians(lon1)
-    lat2 = radians(lat2)
-    lon2 = radians(lon2)
-
-    lat_diff = lat2 - lat1
-    lon_diff = lon2 - lon1
-
-    sq1 = sin(lat_diff / 2) ** 2
-    sq2 = sin(lon_diff / 2) ** 2
-
-    cq = cos(lat1) * cos(lat2)
-
-    qty_root = sqrt(sq1 + cq * sq2)
-
-    qty_sine_inv = asin(qty_root)
-
-    distance = 2 * earth_radius * qty_sine_inv
-
-    return distance
-
-
-def get_speed(lat1, lon1, lat2, lon2, timestamp1, timestamp2):
-    """It will calculate speed"""
-
-    time_seconds = timestamp2 - timestamp1
-    if time_seconds <= 0:
-        return None
-
-    distance = calculate_distance(lat1, lon1, lat2, lon2)
-    speed = (distance / time_seconds) * 3600
-
-    return speed
+from src.get_satellite_location import get_satellite_location
+from src.get_speed import get_speed
 
 
 last_timestamp = None
