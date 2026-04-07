@@ -3,7 +3,7 @@ from math import sin, cos, sqrt, radians, asin
 
 earth_radius = 6371 + 420 # km
 
-# calculate arc length for speed
+# calculate arc length for speed using haversine formula
 def calculate_distance(lat1, lon1, lat2, lon2):
     """Calculate distance between two coordinates"""
 

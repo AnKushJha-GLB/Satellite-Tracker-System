@@ -1,12 +1,14 @@
 import requests
 
+from ..config import ISS_URL_API
+
 def get_satellite_location():
     """This will return the ISS location"""
 
-    url = "http://api.open-notify.org/iss-now.json"
+    # url = "http://api.open-notify.org/iss-now.json"
     
     try:
-        response = requests.get(url, timeout=5)
+        response = requests.get(ISS_URL_API, timeout=5)
         response.raise_for_status()
         
         data = response.json()

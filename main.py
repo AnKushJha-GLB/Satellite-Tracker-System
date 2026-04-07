@@ -3,17 +3,16 @@ from datetime import datetime
 from zoneinfo import ZoneInfo
 
 
-from src.get_satellite_location import get_satellite_location
-from src.get_speed import get_speed
+from src.tracking.get_satellite_location import get_satellite_location
+from src.tracking.get_speed import get_speed
+from src.config import TIMEZONE, UPDATE_INTERVAL
 
 
 def main():
     last_timestamp = None
     last_longitude = None
     last_latitude = None
-    
-    UPDATE_INTERVAL = 2
-    TIMEZONE = "Asia/Kolkata"   
+      
 
 
     while True:
