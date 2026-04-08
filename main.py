@@ -6,6 +6,7 @@ from zoneinfo import ZoneInfo
 from src.tracking.get_satellite_location import get_satellite_location
 from src.tracking.get_speed import get_speed
 from src.config import TIMEZONE, UPDATE_INTERVAL
+from src.database.db import create_table, insert_data, add_datetime_column
 
 
 def main():
@@ -49,6 +50,7 @@ def main():
             # print(f"Speed: {speed}")
             if speed is not None:
                 print(f"Speed: {speed:.2f} km/h")
+                insert_data(time_stamp, latitude, longitude, ist_time, speed)
             else:
                 print("speed: Calculating...")
         else:
@@ -61,7 +63,10 @@ def main():
 
 if __name__ == "__main__":
     try:
+        create_table()
+        add_datetime_column()
         main()
+        
     except KeyboardInterrupt:
         print("\nProgram stopped by user.")
 
